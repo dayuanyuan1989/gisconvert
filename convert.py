@@ -18,16 +18,12 @@ class GPSPoint:
         self.lat = lat
 
 # //百度转84
-
-
 def bd09towgs84(bd: GPSPoint) -> GPSPoint:
     hx = bd09togcj02(bd)
     wgs84 = gcj02towgs84(hx)
     return wgs84
 
 # //百度转火星
-
-
 def bd09togcj02(Bd: GPSPoint) -> GPSPoint:
     x = Bd.lng - 0.0065
     y = Bd.lat - 0.006
@@ -39,8 +35,6 @@ def bd09togcj02(Bd: GPSPoint) -> GPSPoint:
     return hx
 
 # //火星转84
-
-
 def gcj02towgs84(hx: GPSPoint) -> GPSPoint:
     dlat = transformlat(hx.lng - 105.0, hx.lat - 35.0)
     dlng = transformlng(hx.lng - 105.0, hx.lat - 35.0)
