@@ -1,10 +1,11 @@
 import json
 import math
+import os
 
-## 功能说明
+# 功能说明
 # 百度坐标系，转化成wgs84
 
-## ref: https://blog.csdn.net/VIP_CR/article/details/126967565?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22126967565%22%2C%22source%22%3A%22unlogin%22%7D
+# ref: https://blog.csdn.net/VIP_CR/article/details/126967565?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22126967565%22%2C%22source%22%3A%22unlogin%22%7D
 # 这哥们的是c#写，我简单改造成python
 
 x_pi = math.pi * 3000.0 / 180.0
@@ -17,13 +18,15 @@ class GPSPoint:
         self.lng = lng
         self.lat = lat
 
-# //百度转84
+
+# 百度转84
 def bd09towgs84(bd: GPSPoint) -> GPSPoint:
     hx = bd09togcj02(bd)
     wgs84 = gcj02towgs84(hx)
     return wgs84
 
-# //百度转火星
+
+# 百度转火星
 def bd09togcj02(Bd: GPSPoint) -> GPSPoint:
     x = Bd.lng - 0.0065
     y = Bd.lat - 0.006
@@ -33,6 +36,7 @@ def bd09togcj02(Bd: GPSPoint) -> GPSPoint:
     hx.lng = z * math.cos(theta)
     hx.lat = z * math.sin(theta)
     return hx
+
 
 # //火星转84
 def gcj02towgs84(hx: GPSPoint) -> GPSPoint:
@@ -80,21 +84,16 @@ def transformlng(lng: float, lat: float) -> float:
     return ret
 
 
-if __name__ == "__main__":
-
-    # 文本内容：经度值,维度值
-    input = "input.txt"
-    # 输出：-{"longitude":经度,"latitude": 维度}
-    output = "output.txt"
-
+def make_data(input: str, output: str):
     wgs84List = []
-
     with open(input) as f:
         lines = f.readlines()
         baiduList = []
 
         for l in lines:
             ss = l.strip().split(",")
+            if len(ss) != 2:
+                continue
             lng = float(ss[0])
             lat = float(ss[1])
             baiduList.append((lng, lat))
@@ -104,7 +103,20 @@ if __name__ == "__main__":
 
     with open(output, mode="w+") as f:
         for item in wgs84List:
-            obj = {"longitude": item[0], "latitude": item[1]}
-            f.write("- " + json.dumps(obj)+"\n")
+            # obj = {"longitude": item[0], "latitude": item[1]}
+            # f.write("- " + json.dumps(obj)+"\n")
+
+            # f.write(f"- latitude: {item[1]}\n")
+            # f.write(f"  longitude: {item[0]}\n")
+
+            f.write(f"{item[0]},{item[1]}\n")
+
+
+if __name__ == "__main__":
+
+    # 遍历data目录下的所有.txt的文件
+    for file in os.listdir("./data"):
+        if file.endswith(".txt"):
+            make_data("./data/" + file, "./output/" + file)
 
     print("Done")

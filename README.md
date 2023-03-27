@@ -4,7 +4,7 @@
 
 # 使用说明
 
-1. 准备输入文件 input.txt
+1. 准备输入文件 data/{filename}.txt
 
 ```vim
 经度值1,维度值1
@@ -14,4 +14,4 @@
 
 2. 执行 python convert.py
 
-3. 输出 output.txt
+3. 输出 output/{filename}.txt
