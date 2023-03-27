@@ -103,13 +103,13 @@ def make_data(input: str, output: str):
 
     with open(output, mode="w+") as f:
         for item in wgs84List:
-            # obj = {"longitude": item[0], "latitude": item[1]}
-            # f.write("- " + json.dumps(obj)+"\n")
+            obj = {"longitude": item[0], "latitude": item[1]}
+            f.write("- " + json.dumps(obj)+"\n")
 
             # f.write(f"- latitude: {item[1]}\n")
             # f.write(f"  longitude: {item[0]}\n")
 
-            f.write(f"{item[0]},{item[1]}\n")
+            # f.write(f"{{{item[0]},{item[1]}}},\n")
 
 
 if __name__ == "__main__":
