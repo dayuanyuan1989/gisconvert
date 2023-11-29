@@ -15,3 +15,7 @@
 2. 执行 python convert.py
 
 3. 输出 output/{filename}.txt
+
+# 使用更高精度的gcj02-wgs84的方法
+
+[gcj02_To_Wgs84_exact](https://www.cnblogs.com/wanghuanl/p/15927619.html)
